@@ -86,6 +86,7 @@ class Date:
             - YYYY-MM-DD(z|Z)
             - YYYY-MM-DD+06:00
             - YYYY-MM-DD-06:00
+            - YYYY-MM-DD-0600
         Although, the TZ is ignored because it's meaningless
         without the time, right?
         @param s: A date string.
@@ -243,7 +244,7 @@ class Time:
         @return: The signed offset in hours.
         @rtype: str
         """
-        if len(s) == len('-00:00'):
+        if len(s) == len('-00:00') or len(s) == len('-0000'):
             return int(s[:3])
         if len(s) == 0:
             return self.tz.local
@@ -344,7 +345,7 @@ class Timezone:
     @type patten: L{re.RegexObject}
     """
     
-    pattern = re.compile('([zZ])|([\-\+][0-9]{2}:[0-9]{2})')
+    pattern = re.compile('([zZ])|([\-\+][0-9]{2}:[0-9]{2})|([\-\+][0-9]{4})')
 
     def __init__(self):
         self.local = ( 0-time.timezone/60/60 )
